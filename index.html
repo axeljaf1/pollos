@@ -1,234 +1,82 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f8f5">
-  <meta name="description" content="NutriSnap estima calorías y macronutrientes a partir de una foto de tu comida.">
-  <title>NutriSnap — Tu comida en una foto</title>
-  <style>
-    :root{--ink:#17231d;--muted:#6f7b73;--line:#e4e9e3;--paper:#fff;--bg:#f7f8f5;--green:#226846;--green2:#dcefe2;--lime:#d9f078;--orange:#ef9867;--blue:#7ba9dc;--shadow:0 18px 55px rgba(35,58,43,.08);--radius:24px}
-    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #8dbca0;outline-offset:3px}.shell{width:min(1180px,calc(100% - 40px));margin:0 auto}
-    header{height:82px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(30,58,39,.09)}.brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.7px;font-size:21px}.brand-mark{width:38px;height:38px;background:var(--green);border-radius:13px;display:grid;place-items:center;color:#fff}.brand-mark svg{width:22px;height:22px}.brand em{font-style:normal;color:var(--green)}.top-note{display:flex;align-items:center;gap:9px;color:#526157;font-size:13px;font-weight:650}.live-dot{width:8px;height:8px;background:#83b86e;border-radius:50%;box-shadow:0 0 0 4px #e3efdf}
-    .hero{padding:54px 0 34px;display:grid;grid-template-columns:1.1fr .9fr;gap:38px;align-items:center}.eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--green);font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}.eyebrow::before{content:"";height:2px;width:24px;background:#9fbd79}.hero h1{font-size:clamp(42px,5.4vw,68px);line-height:.99;letter-spacing:-3.5px;margin:17px 0 18px;font-weight:760;max-width:610px}.hero h1 span{color:var(--green)}.hero p{max-width:520px;color:var(--muted);font-size:16px;line-height:1.7;margin:0}.hero-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:25px}.tag{font-size:12px;font-weight:650;color:#496052;border:1px solid #dfe7dc;background:#fff;border-radius:999px;padding:9px 12px}.hero-visual{min-height:250px;position:relative;display:grid;place-items:center}.orbit{position:absolute;border:1px solid #e0e8df;border-radius:50%;width:270px;height:270px}.orbit.two{width:330px;height:330px;border-style:dashed;opacity:.72}.dish{position:relative;width:220px;height:220px;border-radius:50%;background:#fff;box-shadow:0 20px 55px rgba(48,69,53,.12),inset 0 0 0 12px #f4f5f0;display:grid;place-items:center;transform:rotate(-8deg)}.meal{width:166px;height:166px;position:relative;border-radius:50%;background:#f0d5a2;overflow:hidden;box-shadow:inset 0 0 0 5px #dfc18d}.meal::before{content:"";position:absolute;width:100px;height:83px;background:#b86e48;border-radius:52% 48% 42% 58%;left:17px;top:35px;transform:rotate(22deg);box-shadow:35px 12px 0 -12px #a85c3e}.meal::after{content:"";position:absolute;width:69px;height:55px;background:#73a762;border-radius:50% 35% 55% 42%;right:6px;top:18px;transform:rotate(-28deg);box-shadow:-8px 48px 0 -17px #c4d978, -38px 72px 0 -18px #4e8f58}.rice{position:absolute;width:46px;height:70px;border-radius:50%;background:#faf4e4;left:22px;bottom:9px;transform:rotate(30deg);box-shadow:8px -1px 0 -2px #fff8e8,-8px 4px 0 -2px #fff8e8}.float-card{position:absolute;background:#fff;border:1px solid #edf0e9;border-radius:17px;padding:13px 15px;box-shadow:var(--shadow)}.float-card strong{display:block;font-size:20px;letter-spacing:-.7px}.float-card small{font-size:11px;color:var(--muted)}.fc-one{top:18px;right:4px}.fc-one strong{color:var(--green)}.fc-two{bottom:9px;left:5px;display:flex;gap:10px;align-items:center}.mini-pie{width:34px;height:34px;border-radius:50%;background:conic-gradient(var(--green) 0 48%,var(--orange) 48% 74%,var(--blue) 74%);position:relative}.mini-pie::after{content:"";position:absolute;inset:7px;background:#fff;border-radius:50%}
-    .workspace{display:grid;grid-template-columns:minmax(0,1.03fr) minmax(0,.97fr);gap:20px;align-items:start;padding-bottom:38px}.panel{background:var(--paper);border:1px solid #e8ece6;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}.panel-head{padding:23px 25px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px}.step{display:flex;align-items:center;gap:11px}.step-no{width:33px;height:33px;border-radius:11px;background:#edf5ec;color:var(--green);font-size:12px;font-weight:800;display:grid;place-items:center}.step h2{margin:0;font-size:16px;letter-spacing:-.25px}.step p{margin:4px 0 0;color:var(--muted);font-size:12px}.tiny-badge{background:#f4f6f2;color:#607066;font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;padding:7px 9px;border-radius:99px}.upload-area{margin:0 22px;border:1.5px dashed #cbd8ca;border-radius:19px;background:#fafcf9;min-height:250px;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;position:relative;transition:.2s}.upload-area.drag{border-color:var(--green);background:#f0f7f0}.upload-area.has-image{padding:10px;min-height:250px;border-style:solid;background:#f1f4ef}.drop-content{max-width:310px}.upload-icon{width:53px;height:53px;margin:0 auto 14px;border-radius:17px;background:#e7f1e6;color:var(--green);display:grid;place-items:center}.upload-icon svg{width:27px;height:27px}.drop-content h3{margin:0 0 8px;font-size:16px;letter-spacing:-.3px}.drop-content p{margin:0;color:var(--muted);font-size:12px;line-height:1.55}.preview{display:none;width:100%;height:270px;object-fit:contain;border-radius:13px}.upload-area.has-image .preview{display:block}.upload-area.has-image .drop-content{display:none}.remove-photo{display:none;position:absolute;right:10px;top:10px;border:0;border-radius:10px;background:#fff;padding:8px 11px;font-size:12px;font-weight:700;box-shadow:0 4px 14px #0001}.upload-area.has-image .remove-photo{display:block}.upload-actions{display:flex;gap:10px;padding:14px 22px 18px}.btn{border:0;border-radius:13px;padding:13px 16px;font-size:13px;font-weight:750;transition:transform .15s,background .15s}.btn:active{transform:scale(.985)}.btn-primary{background:var(--green);color:white;box-shadow:0 7px 15px rgba(34,104,70,.15)}.btn-primary:hover{background:#174f34}.btn-secondary{background:#eef3ec;color:#355744}.btn-secondary:hover{background:#e3ede1}.upload-actions .btn{flex:1}.field-wrap{padding:0 22px 18px}.field-label{display:block;margin-bottom:8px;font-size:12px;font-weight:750;color:#34473a}.field-hint{font-weight:450;color:#8b958e;margin-left:5px}.text-input{width:100%;border:1px solid #e0e7df;border-radius:12px;padding:13px 14px;background:#fff;color:var(--ink);font-size:13px}.text-input::placeholder{color:#a1aaa3}.privacy-note{margin:0 22px 22px;padding-top:13px;border-top:1px solid #eef0eb;display:flex;gap:9px;align-items:flex-start;color:#78847b;font-size:11px;line-height:1.5}.privacy-note svg{width:15px;height:15px;flex:0 0 auto;margin-top:1px;color:#7c9980}
-    .results-panel{min-height:570px}.result-empty{min-height:440px;padding:35px 28px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}.result-empty .empty-icon{width:64px;height:64px;display:grid;place-items:center;background:#f0f4ec;border-radius:21px;color:#739174;margin-bottom:18px}.empty-icon svg{width:30px;height:30px}.result-empty h3{font-size:19px;letter-spacing:-.5px;margin:0 0 9px}.result-empty p{max-width:290px;line-height:1.6;font-size:13px;color:var(--muted);margin:0}.try-example{margin-top:22px;background:transparent;border:1px solid #dae5d8;border-radius:11px;padding:11px 16px;color:var(--green);font-size:12px;font-weight:750}.results-content{display:none;padding:0 25px 25px}.result-topline{display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--muted);font-size:11px;margin-bottom:17px}.confidence{border-radius:99px;padding:6px 9px;background:#edf5e9;color:#47714b;font-weight:750}.calories{background:linear-gradient(135deg,#eff7ec,#f8faef);border:1px solid #e5eee1;border-radius:19px;padding:21px 22px;position:relative;overflow:hidden}.calories::after{content:"";position:absolute;right:-22px;top:-38px;width:130px;height:130px;border-radius:50%;border:20px solid rgba(126,166,105,.08)}.calories .label{font-size:11px;font-weight:750;letter-spacing:.8px;text-transform:uppercase;color:#5a705d}.calories .big-number{font-size:46px;line-height:1.1;font-weight:800;letter-spacing:-2.7px;margin:7px 0 4px}.calories .big-number span{font-size:15px;letter-spacing:0;font-weight:700;color:#6f7c70;margin-left:4px}.calories .summary{font-size:12px;color:#687969;line-height:1.45;max-width:88%;margin:0}.macro-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 22px}.macro{padding:13px 12px;border:1px solid #e9ece7;border-radius:15px}.macro-top{display:flex;align-items:center;gap:7px;color:#657369;font-size:11px;font-weight:700}.macro-dot{height:7px;width:7px;border-radius:50%;background:var(--green)}.macro:nth-child(2) .macro-dot{background:var(--orange)}.macro:nth-child(3) .macro-dot{background:var(--blue)}.macro strong{display:block;font-size:20px;letter-spacing:-.7px;margin-top:10px}.macro small{font-size:10px;color:#8a958b}.section-title{font-size:13px;font-weight:800;letter-spacing:-.2px;margin:0 0 12px}.food-list{display:flex;flex-direction:column;gap:10px}.food-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #edf0eb}.food-row:last-child{border-bottom:0}.food-name{font-size:12px;font-weight:750}.food-portion{display:block;margin-top:4px;color:#89938a;font-size:11px}.food-kcal{text-align:right;font-size:13px;font-weight:800}.food-kcal small{display:block;margin-top:3px;color:#89938a;font-size:10px;font-weight:550}.tips{margin-top:18px;padding:15px;border-radius:14px;background:#fbf8ed;border:1px solid #f0ead4}.tips h4{font-size:12px;margin:0 0 8px}.tips ul{margin:0;padding-left:17px;color:#777258;font-size:11px;line-height:1.6}.disclaimer{margin-top:14px;font-size:10px;line-height:1.55;color:#8b948c}.result-actions{display:flex;gap:8px;margin-top:18px}.result-actions .btn{flex:1;font-size:11px;padding:11px 9px}.loading{display:none;padding:34px;text-align:center}.spinner{width:34px;height:34px;border:3px solid #e0eae0;border-top-color:var(--green);border-radius:50%;animation:spin .75s linear infinite;margin:0 auto 15px}@keyframes spin{to{transform:rotate(360deg)}}.loading strong{font-size:14px;display:block}.loading p{font-size:12px;color:var(--muted);line-height:1.5}.error-box{display:none;margin:20px;padding:15px;background:#fff3ef;border:1px solid #f2d7cf;color:#9d4830;border-radius:14px;font-size:12px;line-height:1.5}
-    footer{border-top:1px solid #e4e9e2;padding:22px 0 30px;display:flex;justify-content:space-between;gap:18px;color:#849087;font-size:11px;line-height:1.5}.footer-brand{font-weight:750;color:#526258}.footer-right{text-align:right;max-width:520px}
-    @media(max-width:850px){.hero{grid-template-columns:1fr;gap:4px;padding-top:38px}.hero-visual{min-height:270px}.workspace{grid-template-columns:1fr}.results-panel{min-height:450px}.hero h1{max-width:650px}.hero p{max-width:610px}}
-    @media(max-width:520px){.shell{width:min(100% - 26px,1180px)}header{height:68px}.brand{font-size:19px}.top-note{font-size:10px}.hero{padding-top:32px}.hero h1{font-size:45px;letter-spacing:-2.6px}.hero p{font-size:14px}.hero-visual{min-height:248px;transform:scale(.92)}.workspace{gap:14px}.panel-head{padding:19px 17px 15px}.upload-area{margin:0 14px;min-height:225px;padding:18px}.upload-area.has-image{min-height:225px}.preview{height:230px}.upload-actions{padding:12px 14px 17px;gap:8px}.btn{padding:12px 10px;font-size:12px}.field-wrap{padding:0 14px 16px}.privacy-note{margin:0 14px 18px}.result-empty{padding:28px 18px;min-height:400px}.results-content{padding:0 17px 19px}.macro-grid{gap:7px}.macro{padding:12px 9px}.macro strong{font-size:18px}.calories{padding:18px}.calories .big-number{font-size:42px}footer{flex-direction:column}.footer-right{text-align:left}}
-  </style>
-</head>
-<body>
-  <header class="shell">
-    <div class="brand"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M19.5 4.5C11 4.5 5.2 7.6 5.2 13.2c0 3.6 2.7 5.8 5.7 5.8 5.5 0 8.6-7.7 8.6-14.5Z" stroke="currentColor" stroke-width="1.8"/><path d="M3.8 21c2.4-5.4 6.8-8.7 11.7-11.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>Nutri<em>Snap</em></div>
-    <div class="top-note"><span class="live-dot"></span> Nutrición en segundos</div>
-  </header>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pixel Art Bat Animation - CSS Only</title>
+<style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-  <main class="shell">
-    <section class="hero">
-      <div>
-        <div class="eyebrow">Tu asistente de nutrición visual</div>
-        <h1>Tu comida.<br><span>En una foto.</span></h1>
-        <p>Descubre una estimación de las calorías, proteínas, carbohidratos y grasas de tu plato. Solo toma una foto y deja que la IA te ayude a entender lo que comes.</p>
-        <div class="hero-tags"><span class="tag">✳ Estimación nutricional</span><span class="tag">⌁ Fácil de usar</span><span class="tag">◷ En segundos</span></div>
-      </div>
-      <div class="hero-visual" aria-hidden="true">
-        <div class="orbit two"></div><div class="orbit"></div><div class="dish"><div class="meal"><div class="rice"></div></div></div>
-        <div class="float-card fc-one"><strong>≈ 520 kcal</strong><small>Ejemplo de un plato</small></div>
-        <div class="float-card fc-two"><div class="mini-pie"></div><div><strong style="font-size:13px">Macros</strong><small>Proteína · Carb. · Grasas</small></div></div>
-      </div>
-    </section>
+  body {
+    background: #1a1a2e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+  }
 
-    <section class="workspace" aria-label="Analiza tu comida">
-      <article class="panel">
-        <div class="panel-head"><div class="step"><span class="step-no">01</span><div><h2>Sube tu comida</h2><p>Una vista clara del plato funciona mejor</p></div></div><span class="tiny-badge">Tu fotografía</span></div>
-        <div class="upload-area" id="dropzone">
-          <div class="drop-content"><div class="upload-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4.5" width="18" height="15" rx="3"/><circle cx="8.5" cy="9" r="1.5"/><path d="m5 17 4.5-4.5 3 3 2.5-2.5L19 17" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>¿Qué hay en tu plato?</h3><p>Toma una foto o selecciona una imagen desde tu dispositivo.<br>JPG, PNG o WEBP.</p></div>
-          <img id="preview" class="preview" alt="Vista previa de la comida seleccionada">
-          <button type="button" id="removePhoto" class="remove-photo">Cambiar foto ×</button>
-        </div>
-        <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
-        <input type="file" id="fileInput" accept="image/*" hidden>
-        <div class="upload-actions"><button type="button" class="btn btn-secondary" id="cameraButton">◎ Tomar foto</button><button type="button" class="btn btn-secondary" id="uploadButton">↑ Subir imagen</button></div>
-        <div class="field-wrap"><label class="field-label" for="contextInput">Detalles de tu comida <span class="field-hint">(opcional)</span></label><input class="text-input" type="text" id="contextInput" maxlength="240" placeholder="Ej. 2 tortillas, pollo a la plancha, sin aceite"></div>
-        <div style="padding:0 22px 20px"><button type="button" id="analyzeButton" class="btn btn-primary" style="width:100%" disabled>Analizar mi plato <span aria-hidden="true">→</span></button></div>
-        <div class="privacy-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4.5" y="10" width="15" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><path d="M12 14v2" stroke-linecap="round"/></svg><span>La foto se procesa para generar la estimación. No incluyas rostros, documentos ni información personal en la imagen.</span></div>
-      </article>
+  /* Contenedor del murciélago */
+  .bat-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-      <article class="panel results-panel" id="resultsPanel">
-        <div class="panel-head"><div class="step"><span class="step-no">02</span><div><h2>Tu análisis nutricional</h2><p>Información estimada por porción</p></div></div><span class="tiny-badge">Resultado</span></div>
-        <div class="result-empty" id="resultEmpty"><div class="empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 8h16M6 8l1.3 10.2A2 2 0 0 0 9.3 20h5.4a2 2 0 0 0 2-1.8L18 8"/><path d="M9 8V5a3 3 0 0 1 6 0v3"/><path d="M9.5 13h5" stroke-linecap="round"/></svg></div><h3>Tu resultado aparecerá aquí</h3><p>Cuando analices tu foto, verás las calorías aproximadas, los macronutrientes y un desglose de los alimentos identificados.</p><button type="button" class="try-example" id="exampleButton">Ver un ejemplo de resultado ↗</button></div>
-        <div class="loading" id="loadingState"><div class="spinner"></div><strong>Analizando tu plato…</strong><p>Identificando alimentos y calculando una estimación nutricional.</p></div>
-        <div class="error-box" id="errorBox" role="alert"></div>
-        <div class="results-content" id="resultsContent" aria-live="polite">
-          <div class="result-topline"><span id="resultMode">Estimación generada por IA</span><span class="confidence" id="confidenceBadge">Confianza media</span></div>
-          <div class="calories"><div class="label">Energía estimada</div><div class="big-number"><span id="kcalValue">520</span><span>kcal</span></div><p class="summary" id="summaryText">Una estimación del contenido energético de tu comida.</p></div>
-          <div class="macro-grid">
-            <div class="macro"><div class="macro-top"><span class="macro-dot"></span>Proteína</div><strong id="proteinValue">32 g</strong><small>Construcción muscular</small></div>
-            <div class="macro"><div class="macro-top"><span class="macro-dot"></span>Carbohidratos</div><strong id="carbsValue">48 g</strong><small>Energía principal</small></div>
-            <div class="macro"><div class="macro-top"><span class="macro-dot"></span>Grasas</div><strong id="fatValue">16 g</strong><small>Reserva de energía</small></div>
-          </div>
-          <h3 class="section-title">Desglose de tu plato</h3><div class="food-list" id="foodList"></div>
-          <div class="tips" id="tipsBox"><h4>✦ A tener en cuenta</h4><ul id="tipsList"></ul></div>
-          <p class="disclaimer">Las calorías son aproximadas. La fotografía no permite conocer con precisión el peso, el aceite, los ingredientes ocultos o el método de preparación. No sustituye la orientación de un profesional de nutrición.</p>
-          <div class="result-actions"><button type="button" id="newAnalysisButton" class="btn btn-primary">Analizar otra comida</button><button type="button" id="copyButton" class="btn btn-secondary">Copiar resultado</button></div>
-        </div>
-      </article>
-    </section>
-  </main>
-
-  <footer class="shell"><div><div class="footer-brand">NutriSnap</div><div>Una forma más consciente de conocer tu comida.</div></div><div class="footer-right">Las estimaciones nutricionales pueden variar según la porción y la preparación. Usa los resultados como referencia, no como una medición exacta.</div></footer>
-
-  <script>
-    const cameraInput = document.getElementById('cameraInput');
-    const fileInput = document.getElementById('fileInput');
-    const preview = document.getElementById('preview');
-    const dropzone = document.getElementById('dropzone');
-    const analyzeButton = document.getElementById('analyzeButton');
-    const resultEmpty = document.getElementById('resultEmpty');
-    const resultsContent = document.getElementById('resultsContent');
-    const loadingState = document.getElementById('loadingState');
-    const errorBox = document.getElementById('errorBox');
-    let imageDataUrl = '';
-    let lastResultText = '';
-
-    document.getElementById('cameraButton').addEventListener('click', () => cameraInput.click());
-    document.getElementById('uploadButton').addEventListener('click', () => fileInput.click());
-    document.getElementById('removePhoto').addEventListener('click', clearPhoto);
-    cameraInput.addEventListener('change', event => loadFile(event.target.files[0]));
-    fileInput.addEventListener('change', event => loadFile(event.target.files[0]));
-    analyzeButton.addEventListener('click', analyzeFood);
-    document.getElementById('exampleButton').addEventListener('click', showExample);
-    document.getElementById('newAnalysisButton').addEventListener('click', resetResults);
-    document.getElementById('copyButton').addEventListener('click', copyResult);
-
-    ['dragenter','dragover'].forEach(name => dropzone.addEventListener(name, e => { e.preventDefault(); dropzone.classList.add('drag'); }));
-    ['dragleave','drop'].forEach(name => dropzone.addEventListener(name, e => { e.preventDefault(); dropzone.classList.remove('drag'); }));
-    dropzone.addEventListener('drop', e => { const file = e.dataTransfer.files && e.dataTransfer.files[0]; if(file) loadFile(file); });
-    dropzone.addEventListener('click', e => { if (!e.target.closest('button') && !imageDataUrl) fileInput.click(); });
-
-    async function loadFile(file) {
-      if (!file) return;
-      if (!file.type.startsWith('image/')) { showError('Selecciona un archivo de imagen válido.'); return; }
-      if (file.size > 15 * 1024 * 1024) { showError('La imagen pesa más de 15 MB. Selecciona una imagen más pequeña.'); return; }
-      try {
-        imageDataUrl = await compressImage(file);
-        preview.src = imageDataUrl;
-        dropzone.classList.add('has-image');
-        analyzeButton.disabled = false;
-        hideError();
-        resetResultView();
-      } catch (error) {
-        showError('No se pudo abrir esta imagen. Prueba con otro archivo JPG, PNG o WEBP.');
-      }
-    }
-
-    function compressImage(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onerror = reject;
-        reader.onload = () => {
-          const img = new Image();
-          img.onerror = reject;
-          img.onload = () => {
-            const maxSize = 1500;
-            const ratio = Math.min(1, maxSize / Math.max(img.naturalWidth, img.naturalHeight));
-            const canvas = document.createElement('canvas');
-            canvas.width = Math.round(img.naturalWidth * ratio);
-            canvas.height = Math.round(img.naturalHeight * ratio);
-            const context = canvas.getContext('2d');
-            context.drawImage(img, 0, 0, canvas.width, canvas.height);
-            resolve(canvas.toDataURL('image/jpeg', 0.84));
-          };
-          img.src = reader.result;
-        };
-        reader.readAsDataURL(file);
-      });
-    }
-
-    function clearPhoto() {
-      imageDataUrl = '';
-      preview.removeAttribute('src');
-      dropzone.classList.remove('has-image');
-      cameraInput.value = '';
-      fileInput.value = '';
-      analyzeButton.disabled = true;
-      hideError();
-      resetResultView();
-    }
-
-    async function analyzeFood() {
-      if (!imageDataUrl) { showError('Primero toma una foto o selecciona una imagen.'); return; }
-      hideError();
-      resultsContent.style.display = 'none';
-      resultEmpty.style.display = 'none';
-      loadingState.style.display = 'block';
-      analyzeButton.disabled = true;
-      try {
-        const response = await fetch('/api/analyze', {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ image: imageDataUrl, context: document.getElementById('contextInput').value.trim() })
-        });
-        const payload = await response.json().catch(() => ({}));
-        if (!response.ok) throw new Error(payload.error || 'No se pudo analizar la imagen.');
-        renderResult(payload, false);
-      } catch (error) {
-        showError(error.message || 'No se pudo conectar con el servidor. Ejecuta el proyecto con npm start y configura tu clave de API.');
-        resultEmpty.style.display = 'flex';
-      } finally {
-        loadingState.style.display = 'none';
-        analyzeButton.disabled = !imageDataUrl;
-      }
-    }
-
-    function renderResult(data, isExample) {
-      resultEmpty.style.display = 'none';
-      loadingState.style.display = 'none';
-      resultsContent.style.display = 'block';
-      document.getElementById('resultMode').textContent = isExample ? 'Ejemplo ilustrativo · no analiza tu foto' : 'Estimación generada por IA';
-      document.getElementById('confidenceBadge').textContent = isExample ? 'Datos de muestra' : `Confianza ${data.confidence || 'media'}`;
-      document.getElementById('kcalValue').textContent = formatNumber(data.total_calories_kcal ?? data.calories_kcal ?? 0);
-      document.getElementById('proteinValue').textContent = `${formatDecimal(data.total_protein_g ?? data.protein_g ?? 0)} g`;
-      document.getElementById('carbsValue').textContent = `${formatDecimal(data.total_carbs_g ?? data.carbs_g ?? 0)} g`;
-      document.getElementById('fatValue').textContent = `${formatDecimal(data.total_fat_g ?? data.fat_g ?? 0)} g`;
-      document.getElementById('summaryText').textContent = data.summary || 'Estimación aproximada de los alimentos visibles en la imagen.';
-      const foodList = document.getElementById('foodList');
-      foodList.replaceChildren();
-      (data.items || []).forEach(item => {
-        const row = document.createElement('div'); row.className = 'food-row';
-        const left = document.createElement('div');
-        const name = document.createElement('div'); name.className = 'food-name'; name.textContent = item.name;
-        const portion = document.createElement('span'); portion.className = 'food-portion'; portion.textContent = `Porción aprox. ${item.portion_grams} g`;
-        left.append(name, portion);
-        const kcal = document.createElement('div'); kcal.className = 'food-kcal'; kcal.textContent = `${formatNumber(item.calories_kcal)} kcal`;
-        const basis = document.createElement('small'); basis.textContent = `${formatDecimal(item.protein_g)} g proteína`;
-        kcal.appendChild(basis); row.append(left, kcal); foodList.appendChild(row);
-      });
-      if (!data.items || data.items.length === 0) {
-        const empty = document.createElement('p'); empty.style.cssText = 'font-size:12px;color:#78847b;line-height:1.5'; empty.textContent = 'No se identificaron alimentos con suficiente claridad. Intenta con una foto más cercana y bien iluminada.'; foodList.appendChild(empty);
-      }
-      const tipsList = document.getElementById('tipsList'); tipsList.replaceChildren();
-      (data.tips || []).slice(0,4).forEach(tip => { const li = document.createElement('li'); li.textContent = tip; tipsList.appendChild(li); });
-      if (!data.tips || data.tips.length === 0) { const li = document.createElement('li'); li.textContent = 'El aceite, las salsas y el tamaño real de la porción pueden cambiar el resultado.'; tipsList.appendChild(li); }
-      lastResultText = `NutriSnap — ${isExample ? 'Ejemplo ilustrativo' : 'Estimación nutricional'}\nEnergía: ${data.total_calories_kcal ?? data.calories_kcal ?? 0} kcal\nProteína: ${data.total_protein_g ?? data.protein_g ?? 0} g\nCarbohidratos: ${data.total_carbs_g ?? data.carbs_g ?? 0} g\nGrasas: ${data.total_fat_g ?? data.fat_g ?? 0} g\n\n${(data.items || []).map(x => `${x.name}: ${x.portion_grams} g, ${x.calories_kcal} kcal`).join('\n')}\n\nEstimación orientativa; no es una medición exacta.`;
-    }
-
-    function showExample() {
-      hideError();
-      renderResult({ confidence:'media', total_calories_kcal:520, total_protein_g:32, total_carbs_g:48, total_fat_g:16, summary:'Ejemplo de un plato con pollo a la plancha, arroz y vegetales. Estos valores solo ilustran cómo se vería el resultado.', items:[{name:'Pollo a la plancha',portion_grams:140,calories_kcal:230,protein_g:32,carbs_g:0,fat_g:10},{name:'Arroz cocido',portion_grams:150,calories_kcal:195,protein_g:4,carbs_g:42,fat_g:1},{name:'Vegetales y aderezo',portion_grams:100,calories_kcal:95,protein_g:2,carbs_g:6,fat_g:5}], tips:['El aceite usado durante la cocción puede aumentar las calorías.','El tamaño de la porción es una estimación visual.'] }, true);
-    }
-
-    function resetResults() { resetResultView(); if (imageDataUrl) document.getElementById('contextInput').focus(); else fileInput.click(); }
-    function resetResultView() { resultEmpty.style.display = 'flex'; resultsContent.style.display = 'none'; loadingState.style.display = 'none'; }
-    function showError(message) { errorBox.textContent = message; errorBox.style.display = 'block'; }
-    function hideError() { errorBox.textContent = ''; errorBox.style.display = 'none'; }
-    function formatNumber(value) { return new Intl.NumberFormat('es-MX',{maximumFractionDigits:0}).format(Number(value)||0); }
-    function formatDecimal(value) { return new Intl.NumberFormat('es-MX',{maximumFractionDigits:1}).format(Number(value)||0); }
-    async function copyResult() {
-      if (!lastResultText) return;
-      try { await navigator.clipboard.writeText(lastResultText); document.getElementById('copyButton').textContent = 'Copiado ✓'; setTimeout(() => document.getElementById('copyButton').textContent = 'Copiar resultado', 1800); }
-      catch { showError('No se pudo copiar automáticamente.'); }
-    }
-  </script>
-</body>
-</html>
+  /* El murciélago - pixel art con box-shadow */
+  .bat {
+    width: 1px;
+    height: 1px;
+    transform: scale(4);
+    position: relative;
+    left: -128px;
+    top: -128px;
+    -webkit-animation: 0.4s bat steps(1) infinite;
+    animation: 0.4s bat steps(1) infinite;
+    background: #4a4a4a;
+    box-shadow: 
+      /* Fila 1 */
+      8px 4px 0 #4a4a4a, 9px 4px 0 #4a4a4a, 10px 4px 0 #4a4a4a,
+      11px 4px 0 #4a4a4a, 12px 4px 0 #4a4a4a, 13px 4px 0 #4a4a4a,
+      14px 4px 0 #4a4a4a, 15px 4px 0 #4a4a4a,
+      /* Fila 2 - cabeza */
+      7px 5px 0 #4a4a4a, 8px 5px 0 #4a4a4a, 9px 5px 0 #4a4a4a,
+      10px 5px 0 #4a4a4a, 11px 5px 0 #4a4a4a, 12px 5px 0 #4a4a4a,
+      13px 5px 0 #4a4a4a, 14px 5px 0 #4a4a4a, 15px 5px 0 #4a4a4a, 16px 5px 0 #4a4a4a,
+      /* Fila 3 - ojos */
+      9px 6px 0 #000, 10px 6px 0 #000, 14px 6px 0 #000, 15px 6px 0 #000,
+      7px 6px 0 #4a4a4a, 8px 6px 0 #4a4a4a, 11px 6px 0 #4a4a4a, 12px 6px 0 #4a4a4a,
+      13px 6px 0 #4a4a4a, 16px 6px 0 #4a4a4a,
+      /* Fila 4 */
+      6px 7px 0 #4a4a4a, 7px 7px 0 #4a4a4a, 8px 7px 0 #4a4a4a,
+      9px 7px 0 #4a4a4a, 10px 7px 0 #4a4a4a, 11px 7px 0 #4a4a4a,
+      12px 7px 0 #4a4a4a, 13px 7px 0 #4a4a4a, 14px 7px 0 #4a4a4a,
+      15px 7px 0 #4a4a4a, 16px 7px 0 #4a4a4a, 17px 7px 0 #4a4a4a,
+      /* Fila 5 - cuerpo */
+      5px 8px 0 #4a4a4a, 6px 8px 0 #4a4a4a, 7px 8px 0 #4a4a4a,
+      8px 8px 0 #4a4a4a, 9px 8px 0 #4a4a4a, 10px 8px 0 #4a4a4a,
+      11px 8px 0 #4a4a4a, 12px 8px 0 #4a4a4a, 13px 8px 0 #4a4a4a,
+      14px 8px 0 #4a4a4a, 15px 8px 0 #4a4a4a, 16px 8px 0 #4a4a4a, 17px 8px 0 #4a4a4a,
+      18px 8px 0 #4a4a4a,
+      /* Fila 6 */
+      4px 9px 0 #4a4a4a, 5px 9px 0 #4a4a4a, 6px 9px 0 #4a4a4a,
+      7px 9px 0 #4a4a4a, 8px 9px 0 #4a4a4a, 9px 9px 0 #4a4a4a,
+      10px 9px 0 #4a4a4a, 11px 9px 0 #4a4a4a, 12px 9px 0 #4a4a4a,
+      13px 9px 0 #4a4a4a, 14px 9px 0 #4a4a4a, 15px 9px 0 #4a4a4a,
+      16px 9px 0 #4a4a4a, 17px 9px 0 #4a4a4a, 18px 9px 0 #4a4a4a, 19px 9px 0 #4a4a4a,
+      /* Fila 7 - alas parte superior */
+      3px 10px 0 #4a4a4a, 4px 10px 0 #4a4a4a, 5px 10px 0 #4a4a4a,
+      6px 10px 0 #4a4a4a, 7px 10px 0 #4a4a4a, 8px 10px 0 #4a4a4a,
+      9px 10px 0 #4a4a4a, 10px 10px 0 #4a4a4a, 11px 10px 0 #4a4a4a,
+      12px 10px 0 #4a4a4a, 13px 10px 0 #4a4a4a, 14px 10px 0 #4a4a4a,
+      15px 10px 0 #4a4a4a, 16px 10px 0 #4a4a4a, 17px 10px 0 #4a4a4a,
+      18px 10px 0 #4a4a4a, 19px 10px 0 #4a4a4a, 20px 10px 0 #4a4a4a,
+      /* Fila 8 - alas */
+      2px 11px 0 #
